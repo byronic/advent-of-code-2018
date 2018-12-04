@@ -5,3 +5,4 @@
 Warning: I am bad at these. Expect horrible, stupid things that _might_ also
 be solutions.
 
+Each solution is organized into its own directory, by day.
