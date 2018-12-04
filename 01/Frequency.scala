@@ -15,14 +15,14 @@ def frequency(l: List[String]): Int = {
 }
 
 def firstTwice(l: List[String]): Int = {
-  def go(l: List[String], fs: List[Int], curr: Int): Int = {
+  def go(l: List[String], i: Int, fs: List[Int], curr: Int): Int = {
+    val index: Int = if (i == l.length) 0 else i
     if (fs.contains(curr)) curr
-    else if (l.tail.isEmpty) curr
-    else go(l.tail, (curr) :: fs, curr + l.head.toInt)
+    else go(l, index + 1, (curr) :: fs, curr + l(index).toInt)
   }
-  go(l, List(), 0)
+  go(l, 0, List(), 0)
 }
 
 frequency(lines)
-
+firstTwice(lines)
 }
