@@ -89,6 +89,26 @@ object Coordinatron {
     go(m, is, 0)
   }
 
+  def findSafestCoordinates(ps: List[(Int, Int)], bounds: (Int, Int, Int, Int)): Int = {
+    def sumDistances(p: (Int, Int), ps: List[(Int, Int)]): Int = {
+      def go(p: (Int, Int), ps: List[(Int, Int)], acc: Int): Int = {
+        if (ps.isEmpty || acc > 10000) acc
+        else go(p, ps.tail, acc + distance(p, ps.head))
+      }
+      println(s"Summing distances for ${p}")
+      go(p, ps, 0)
+    }
+
+    def go(ps: List[(Int, Int)], bounds: (Int, Int, Int, Int), x: Int, y: Int, acc: Int): Int = {
+      val currentX = if (x > bounds._2) 0 else x
+      val currentY = if (x > currentX) y + 1 else y
+      if (y > bounds._4) acc
+      else go(ps, bounds, currentX + 1, currentY, if (sumDistances((currentX, currentY), ps) < 10000) 1 + acc else acc)
+    }
+
+    go(ps, bounds, bounds._1, bounds._3, 0)
+  }
+
   def makePointList(l: List[String]): List[(Int, Int)] = {
     def go(l: List[String], ps: List[(Int, Int)]): List[(Int, Int)] = {
       if (l.isEmpty) ps
@@ -105,5 +125,6 @@ object Coordinatron {
     val points: List[(Int, Int)] = makePointList(lines)
     val res: (Map[(Int, Int), Int], List[(Int, Int)]) = makeMap(points, bounds(points))
     println(findGreatestArea(res._1, res._2))
+    println(findSafestCoordinates(points, bounds(points)))
   }
 }
